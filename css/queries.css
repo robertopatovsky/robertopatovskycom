@@ -244,7 +244,8 @@
   }
 
   .section-hero {
-    padding: 2.4rem 0 6.4rem 0;
+    /* padding: 2.4rem 0 6.4rem 0; */
+    padding: 9.6rem 0;
   }
 
   .hero {
