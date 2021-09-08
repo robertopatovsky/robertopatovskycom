@@ -34,7 +34,7 @@ const allLinks = document.querySelectorAll("a:link");
 
 allLinks.forEach(function (link) {
   link.addEventListener("click", function (e) {
-    // e.preventDefault();
+    e.preventDefault();
     const href = link.getAttribute("href");
 
     // Scroll back to top
@@ -55,7 +55,7 @@ allLinks.forEach(function (link) {
       headerEl.classList.toggle("nav-open");
 
     if (href === "https://www.linkedin.com/in/robert-opatovsky-11653465/") {
-      $(this).click()
+      e.click()
     };
   });
 });
