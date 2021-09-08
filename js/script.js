@@ -53,6 +53,10 @@ allLinks.forEach(function (link) {
     // Close mobile naviagtion
     if (link.classList.contains("main-nav-link"))
       headerEl.classList.toggle("nav-open");
+
+    if (href === "https://www.linkedin.com/in/robert-opatovsky-11653465/") {
+      $(this).unbind('click').click()
+    };
   });
 });
 
