@@ -1,10 +1,10 @@
 [
     {
-        "slug": "welcome",
-        "title": "Welcome to my new site",
-        "date": "2024-01-10",
-        "excerpt": "This is the first post on my new vanilla JS blog. No builds, just code.",
-        "readTime": "2 min read"
+        "slug": "python-data-pipeline",
+        "title": "Building a Robust Data Pipeline in Python",
+        "date": "2026-02-15",
+        "excerpt": "Learn how to build a production-ready ETL pipeline using Python, Pandas, and SQLAlchemy.",
+        "readTime": "8 min read"
     },
     {
         "slug": "why-simple",
