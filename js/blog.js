@@ -2,7 +2,7 @@ import { parseMarkdown } from './markdown.js';
 
 async function fetchPosts() {
     try {
-        const response = await fetch('data/posts.json');
+        const response = await fetch('/data/posts.json');
         if (!response.ok) throw new Error('Failed to load posts');
         return await response.json();
     } catch (e) {
@@ -23,10 +23,10 @@ export async function renderBlogList(container) {
 
     const listHtml = posts.map(post => `
         <article class="blog-card fade-in">
-            <h3><a href="#post/${post.slug}">${post.title}</a></h3>
+            <h3><a href="/post/${post.slug}">${post.title}</a></h3>
             <div class="meta">${post.date} &middot; ${post.readTime || '5 min read'}</div>
             <p>${post.excerpt}</p>
-            <a href="#post/${post.slug}" class="read-more">Read more &rarr;</a>
+            <a href="/post/${post.slug}" class="read-more">Read more &rarr;</a>
         </article>
     `).join('');
 
@@ -49,7 +49,7 @@ export async function renderBlogPost(container, slug) {
         const meta = posts.find(p => p.slug === slug);
 
         // Fetch content
-        const res = await fetch(`data/posts/${slug}.md`);
+        const res = await fetch(`/data/posts/${slug}.md`);
         if (!res.ok) throw new Error('Post not found');
         const text = await res.text();
 
