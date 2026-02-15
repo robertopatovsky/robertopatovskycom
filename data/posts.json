@@ -1,0 +1,16 @@
+[
+    {
+        "slug": "welcome",
+        "title": "Welcome to my new site",
+        "date": "2024-01-10",
+        "excerpt": "This is the first post on my new vanilla JS blog. No builds, just code.",
+        "readTime": "2 min read"
+    },
+    {
+        "slug": "why-simple",
+        "title": "Why I chose Simplicity",
+        "date": "2024-01-09",
+        "excerpt": "Exploring the benefits of no-build web development in a complex world.",
+        "readTime": "4 min read"
+    }
+]
