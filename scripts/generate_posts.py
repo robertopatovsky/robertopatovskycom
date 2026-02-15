@@ -48,4 +48,36 @@ for post in posts:
     with open(output_path, 'w', encoding='utf-8') as f:
         f.write(html)
 
+# Generate Core Pages
+core_pages = [
+    {
+        'slug': 'home',
+        'title': 'Home',
+        'description': 'Personal Website & Blog of Robert Opatovsky',
+        'url': 'https://blog.robertopatovsky.com/home'
+    },
+    {
+        'slug': 'blog',
+        'title': 'Blog',
+        'description': 'Latest thoughts and writings by Robert Opatovsky',
+        'url': 'https://blog.robertopatovsky.com/blog'
+    }
+]
+
+for page in core_pages:
+    print(f"Generating page for: {page['title']}")
+    
+    page_dir = os.path.join(base_dir, page['slug'])
+    if not os.path.exists(page_dir):
+        os.makedirs(page_dir)
+        
+    html = template
+    html = html.replace('<title>My Personal Space</title>', f"<title>{page['title']} | Robert Opatovsky</title>")
+    html = html.replace('content="My Personal Space"', f'content="{page["title"]} | Robert Opatovsky"')
+    html = html.replace('content="Personal Website & Blog of Robert Opatovsky"', f'content="{page["description"]}"')
+    html = html.replace('content="https://blog.robertopatovsky.com/"', f'content="{page["url"]}"')
+    
+    with open(os.path.join(page_dir, 'index.html'), 'w', encoding='utf-8') as f:
+        f.write(html)
+
 print('Static generation complete.')
