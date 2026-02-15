@@ -57,7 +57,7 @@ export async function renderBlogPost(container, slug) {
 
         container.innerHTML = `
             <article class="blog-post fade-in">
-                <a href="#blog" class="back-link">&larr; Back to Blog</a>
+                <a href="/blog" class="back-link">&larr; Back to Blog</a>
                 <header class="post-header">
                     <h1>${meta ? meta.title : slug}</h1>
                     ${meta ? `<div class="meta">${meta.date}</div>` : ''}
@@ -70,7 +70,7 @@ export async function renderBlogPost(container, slug) {
     } catch (e) {
         container.innerHTML = `
             <h2>Error</h2>
-            <p>Could not load post. <a href="#blog">Go back</a></p>
+            <p>Could not load post. <a href="/blog">Go back</a></p>
         `;
     }
 }
