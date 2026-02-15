@@ -1,5 +1,12 @@
 [
     {
+        "slug": "gabi",
+        "title": "gabi je super",
+        "date": "2026-02-15",
+        "excerpt": "",
+        "readTime": "5 min read"
+    },
+    {
         "slug": "test",
         "title": "test",
         "date": "2026-02-15",
