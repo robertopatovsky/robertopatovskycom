@@ -213,6 +213,17 @@ p {
     gap: 0.5rem;
 }
 
+/* Graphical Logo Alignment */
+.logo {
+    display: flex;
+    align-items: center;
+    transition: transform 0.2s ease;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+}
+
 /* Timeline View */
 .timeline-wrapper {
     position: relative;
