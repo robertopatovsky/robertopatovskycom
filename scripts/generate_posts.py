@@ -57,10 +57,10 @@ core_pages = [
         'url': 'https://blog.robertopatovsky.com/home'
     },
     {
-        'slug': 'blog',
-        'title': 'Blog',
+        'slug': 'posts',
+        'title': 'Posts',
         'description': 'Latest thoughts and writings by Robert Opatovsky',
-        'url': 'https://blog.robertopatovsky.com/blog'
+        'url': 'https://blog.robertopatovsky.com/posts'
     }
 ]
 

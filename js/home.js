@@ -1,4 +1,4 @@
-import { renderBlogList } from './blog.js';
+import { renderPosts } from './posts.js';
 
 export function renderHome(container) {
     container.innerHTML = `
@@ -15,5 +15,5 @@ export function renderHome(container) {
 
     // Render the blog list into the sub-container
     const blogContainer = container.querySelector('#home-blog-list');
-    renderBlogList(blogContainer);
+    renderPosts(blogContainer);
 }

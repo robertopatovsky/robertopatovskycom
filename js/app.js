@@ -1,10 +1,10 @@
 import { renderHome } from './home.js';
-import { renderBlogList, renderBlogPost } from './blog.js';
+import { renderPosts, renderBlogPost } from './posts.js';
 
 // Simple Router
 const routes = {
     'home': renderHome,
-    'blog': renderBlogList,
+    'posts': renderPosts,
     'post': renderBlogPost
 };
 
