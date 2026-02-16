@@ -13,6 +13,7 @@ async function fetchPosts() {
 
 // State
 let allPosts = [];
+let sortOrder = 'newest'; // 'newest' | 'oldest'
 
 export async function renderPosts(container) {
     container.innerHTML = `
@@ -20,6 +21,7 @@ export async function renderPosts(container) {
             <h2>Timeline</h2>
             <div class="controls">
                 <input type="text" id="post-search" placeholder="Search posts..." class="search-input">
+                <button id="sort-toggle" class="sort-btn">Newest &darr;</button>
             </div>
         </div>
         <div id="timeline-container" class="timeline-wrapper">
@@ -32,6 +34,7 @@ export async function renderPosts(container) {
     }
 
     const searchInput = container.querySelector('#post-search');
+    const sortBtn = container.querySelector('#sort-toggle');
 
     // Initial Render
     renderTimeline(container);
@@ -39,6 +42,12 @@ export async function renderPosts(container) {
     // Event Listeners
     searchInput.addEventListener('input', (e) => {
         renderTimeline(container, e.target.value);
+    });
+
+    sortBtn.addEventListener('click', () => {
+        sortOrder = sortOrder === 'newest' ? 'oldest' : 'newest';
+        sortBtn.innerHTML = sortOrder === 'newest' ? 'Newest &darr;' : 'Oldest &uarr;';
+        renderTimeline(container, searchInput.value);
     });
 }
 
@@ -57,8 +66,12 @@ function renderTimeline(container, query = '') {
         return;
     }
 
-    // Sort by Date Descending
-    filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+    // Sort by Date based on sortOrder
+    filtered.sort((a, b) => {
+        const dateA = new Date(a.date);
+        const dateB = new Date(b.date);
+        return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
+    });
 
     // Group by Year -> Month
     const grouped = {};
@@ -75,16 +88,20 @@ function renderTimeline(container, query = '') {
 
     // Generate HTML
     let html = '';
-    const years = Object.keys(grouped).sort((a, b) => b - a);
+    // Sort years based on sortOrder
+    const years = Object.keys(grouped).sort((a, b) => {
+        return sortOrder === 'newest' ? b - a : a - b;
+    });
 
     years.forEach(year => {
         html += `<div class="timeline-year">
             <h2 class="year-header">${year}</h2>`;
 
-        // Process months in reverse order (easiest way is to sort by date of first post in month)
-        // Or simply strict month order if prefered.
+        // Sort months based on sortOrder
         const months = Object.keys(grouped[year]).sort((a, b) => {
-            return new Date(`${b} 1, 2000`) - new Date(`${a} 1, 2000`);
+            const dateA = new Date(`${a} 1, 2000`);
+            const dateB = new Date(`${b} 1, 2000`);
+            return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
         });
 
         months.forEach(month => {
