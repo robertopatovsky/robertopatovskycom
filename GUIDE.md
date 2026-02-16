@@ -1,44 +1,53 @@
-# How to Add a New Blog Post
+# Blog Management Guide
 
-Adding a new post involves three simple steps: creating the content, updating the list, and generating the pages.
+Welcome to the documentation for your personal website. This guide covers how to add content, manage the site, and use the new features.
 
-## Step 1: Create the Content
-1.  Navigate to the `data/posts/` directory.
-2.  Create a new Markdown file (e.g., `my-new-post.md`).
-3.  Write your content using standard Markdown.
-    ```markdown
-    # My New Post Title
-    
-    This is the first paragraph of my *new* post.
-    ```
+## 🚀 The Blog Manager App (Recommended)
 
-## Step 2: Register the Post
-1.  Open `data/posts.json`.
-2.  Add a new entry to the top of the list (so it appears first):
-    ```json
-    {
-        "slug": "my-new-post",
-        "title": "My New Post Title",
-        "date": "February 15, 2026",
-        "excerpt": "A short summary of the post that appears on the homepage.",
-        "readTime": "3 min read"
-    },
-    ```
-    *Note: The `slug` must match the filename you created in Step 1 (without .md).*
+Managing your blog is now easier with the custom Python GUI application.
 
-## Step 3: Generate & Deploy
+### How to Run
 1.  Open your terminal.
-2.  Run the generator script to create the HTML pages:
+2.  Run the following command:
     ```bash
-    python3 scripts/generate_posts.py
-    ```
-    *You should see output saying "Generating page for: My New Post Title".*
-
-3.  Commit and push your changes:
-    ```bash
-    git add .
-    git commit -m "Add new post: My New Post Title"
-    git push origin master
+    python3 scripts/blog_manager.py
     ```
 
-**That's it!** Your new post will be live on `https://blog.robertopatovsky.com` in a minute or two.
+### App Features
+*   **Create/Edit**: Select a post from the left sidebar to edit, or click **+ New Post** to start fresh.
+*   **Live Metadata**: Title, Slug, Date, and Excerpt are all editable fields.
+*   **Image Handling**: Click **Insert Image** to pick a file from your computer. The app automatically copies it to the `assets/` folder and inserts the Markdown code for you.
+*   **One-Click Actions**:
+    *   **Save Post**: Updates `posts.json` and the Markdown file.
+    *   **Generate Site**: Rebuilds the static HTML pages.
+    *   **Deploy to GitHub**: Commits and pushes your changes to the live site.
+
+---
+
+## 🛠️ Manual Method (Power Users)
+
+If you prefer working directly with files, you can still do so.
+
+1.  **Create Content**: Add a `.md` file in `data/posts/` (e.g., `my-post.md`).
+2.  **Register**: Add the metadata to `data/posts.json`.
+3.  **Generate**: Run `python3 scripts/generate_posts.py`.
+4.  **Deploy**: Run `git add .`, `git commit -m "update"`, `git push origin master`.
+
+---
+
+## ✨ New Website Features
+
+### 1. Posts Page (`/posts`)
+*   **Renamed Route**: The blog is now located at `/posts` to be more semantic.
+*   **Search**: Users can filter posts by title or excerpt keywords in real-time.
+*   **Sorting**: Toggle between "Newest First" and "Oldest First".
+
+### 2. Light / Dark Mode
+*   **Automatic**: The site respects the user's system preference (e.g., macOS Dark Mode).
+*   **Toggle**: A sun/moon button in the navbar allows manual switching.
+*   **Persistence**: The preference is saved in the browser so it remembers the user's choice.
+
+### 3. Professional Design
+*   **Typography**: Updated to **Outfit** (Headings) and **Inter** (Body) for a clean, modern look.
+*   **Colors**: A new "Professional Blue" palette replaces the generic colors.
+*   **Logo**: Updated to "Robert Opatovsky | Engineering".
