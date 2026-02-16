@@ -230,7 +230,7 @@ p {
 }
 
 .logo-link:hover {
-    transform: scale(1.1) rotate(-8deg);
+    transform: scale(1.15) rotate(-12deg);
 }
 
 /* Theme specific adjustments for SVG logo */
@@ -240,7 +240,12 @@ body.light-mode .main-logo-svg {
 
 body:not(.light-mode) .main-logo-svg {
     color: var(--text-accent);
-    filter: drop-shadow(0 0 15px rgba(88, 166, 255, 0.6));
+    filter: drop-shadow(0 0 20px rgba(88, 166, 255, 0.7));
+}
+
+/* Fix for background-clip lint */
+.nav-links a {
+    background-clip: padding-box;
 }
 
 /* Timeline View */
