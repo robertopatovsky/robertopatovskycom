@@ -51,8 +51,8 @@ export async function renderPosts(container) {
     });
 }
 
-function filterAndRender(container, query = '') {
-    const listContainer = container.querySelector('#posts-container');
+function renderTimeline(container, query = '') {
+    const listContainer = container.querySelector('#timeline-container');
     const q = query.toLowerCase();
 
     // Filter
@@ -61,26 +61,69 @@ function filterAndRender(container, query = '') {
         post.excerpt.toLowerCase().includes(q)
     );
 
-    // Sort
-    filtered.sort((a, b) => {
-        const dateA = new Date(a.date);
-        const dateB = new Date(b.date);
-        return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
-    });
-
     if (filtered.length === 0) {
         listContainer.innerHTML = '<p>No posts found.</p>';
         return;
     }
 
-    listContainer.innerHTML = filtered.map(post => `
-        <article class="blog-card fade-in">
-            <h3><a href="/post/${post.slug}">${post.title}</a></h3>
-            <div class="meta">${post.date} &middot; ${post.readTime || '5 min read'}</div>
-            <p>${post.excerpt}</p>
-            <a href="/post/${post.slug}" class="read-more">Read more &rarr;</a>
-        </article>
-    `).join('');
+    // Sort by Date Descending
+    filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    // Group by Year -> Month
+    const grouped = {};
+    filtered.forEach(post => {
+        const date = new Date(post.date);
+        const year = date.getFullYear();
+        const month = date.toLocaleString('default', { month: 'long' });
+
+        if (!grouped[year]) grouped[year] = {};
+        if (!grouped[year][month]) grouped[year][month] = [];
+
+        grouped[year][month].push(post);
+    });
+
+    // Generate HTML
+    let html = '';
+    const years = Object.keys(grouped).sort((a, b) => b - a);
+
+    years.forEach(year => {
+        html += `<div class="timeline-year">
+            <h2 class="year-header">${year}</h2>`;
+
+        // Process months in reverse order (Dec -> Jan) for this year
+        // We need a custom sort or just rely on the order if we care about month order
+        // A simple way is to use key order if inserted correctly, but let's be safe
+        const months = Object.keys(grouped[year]).sort((a, b) => {
+            return new Date(`${b} 1, 2000`) - new Date(`${a} 1, 2000`);
+        });
+
+        months.forEach(month => {
+            html += `<div class="timeline-month">
+                <h3 class="month-header">${month}</h3>
+                <div class="month-posts">`;
+
+            grouped[year][month].forEach(post => {
+                // Formatting date: "Feb 15"
+                const dateObj = new Date(post.date);
+                const day = dateObj.getDate();
+
+                html += `
+                    <article class="blog-card timeline-card fade-in">
+                        <div class="card-date">${month} ${day}</div>
+                        <h3><a href="/post/${post.slug}">${post.title}</a></h3>
+                        <div class="meta">${post.readTime || '5 min read'}</div>
+                        <p>${post.excerpt}</p>
+                        <a href="/post/${post.slug}" class="read-more">Read &rarr;</a>
+                    </article>
+                `;
+            });
+            html += `</div></div>`; // Close month-posts and timeline-month
+        });
+
+        html += `</div>`; // Close timeline-year
+    });
+
+    listContainer.innerHTML = html;
 }
 
 export async function renderBlogPost(container, slug) {
