@@ -2,7 +2,7 @@
 
 Data engineering is the backbone of modern analytics. Without reliable pipelines to move and transform data, the most sophisticated AI models are useless. In this tutorial, we will build a production-ready **ETL (Extract, Transform, Load)** pipeline using Python.
 
-![Data Pipeline Architecture](/assets/data_pipeline_flow.png)
+![Data Pipeline Architecture](./data_pipeline_flow.png)
 
 ## What is a Data Pipeline?
 

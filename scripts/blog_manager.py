@@ -161,16 +161,27 @@ class BlogManager(tk.Tk):
         self.entry_title.focus_set()
 
     def _insert_image(self):
+        if not self.current_post:
+            messagebox.showwarning("Warning", "Please select or save the post first to insert images into its folder.")
+            return
+
         file_path = filedialog.askopenfilename(filetypes=[("Images", "*.png *.jpg *.jpeg *.gif *.webp")])
         if not file_path:
             return
             
         filename = os.path.basename(file_path)
-        dest_path = os.path.join(self.assets_dir, filename)
+        slug = self.entry_slug.get()
+        # Save to post/[slug]/ folder
+        dest_dir = os.path.join(self.base_dir, 'post', slug)
+        if not os.path.exists(dest_dir):
+            os.makedirs(dest_dir)
+            
+        dest_path = os.path.join(dest_dir, filename)
         
         try:
             shutil.copy2(file_path, dest_path)
-            markdown_img = f"![Alt Text](/assets/{filename})"
+            # Use relative path for the post
+            markdown_img = f"![Alt Text](./{filename})"
             self.text_content.insert(tk.INSERT, markdown_img)
         except Exception as e:
             messagebox.showerror("Error", f"Failed to copy image: {e}")
