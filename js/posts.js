@@ -13,18 +13,16 @@ async function fetchPosts() {
 
 // State
 let allPosts = [];
-let sortOrder = 'newest'; // 'newest' | 'oldest'
 
 export async function renderPosts(container) {
     container.innerHTML = `
         <div class="posts-header fade-in">
-            <h2>Latest Posts</h2>
+            <h2>Timeline</h2>
             <div class="controls">
                 <input type="text" id="post-search" placeholder="Search posts..." class="search-input">
-                <button id="sort-toggle" class="sort-btn">Newest &darr;</button>
             </div>
         </div>
-        <div id="posts-container" class="blog-grid">
+        <div id="timeline-container" class="timeline-wrapper">
             <div class="loading">Loading...</div>
         </div>
     `;
@@ -34,20 +32,13 @@ export async function renderPosts(container) {
     }
 
     const searchInput = container.querySelector('#post-search');
-    const sortBtn = container.querySelector('#sort-toggle');
 
     // Initial Render
-    filterAndRender(container);
+    renderTimeline(container);
 
     // Event Listeners
     searchInput.addEventListener('input', (e) => {
-        filterAndRender(container, e.target.value);
-    });
-
-    sortBtn.addEventListener('click', () => {
-        sortOrder = sortOrder === 'newest' ? 'oldest' : 'newest';
-        sortBtn.innerHTML = sortOrder === 'newest' ? 'Newest &darr;' : 'Oldest &uarr;';
-        filterAndRender(container, searchInput.value);
+        renderTimeline(container, e.target.value);
     });
 }
 
@@ -90,9 +81,8 @@ function renderTimeline(container, query = '') {
         html += `<div class="timeline-year">
             <h2 class="year-header">${year}</h2>`;
 
-        // Process months in reverse order (Dec -> Jan) for this year
-        // We need a custom sort or just rely on the order if we care about month order
-        // A simple way is to use key order if inserted correctly, but let's be safe
+        // Process months in reverse order (easiest way is to sort by date of first post in month)
+        // Or simply strict month order if prefered.
         const months = Object.keys(grouped[year]).sort((a, b) => {
             return new Date(`${b} 1, 2000`) - new Date(`${a} 1, 2000`);
         });
@@ -103,7 +93,6 @@ function renderTimeline(container, query = '') {
                 <div class="month-posts">`;
 
             grouped[year][month].forEach(post => {
-                // Formatting date: "Feb 15"
                 const dateObj = new Date(post.date);
                 const day = dateObj.getDate();
 
@@ -132,11 +121,9 @@ export async function renderBlogPost(container, slug) {
     container.innerHTML = '<div class="loading">Loading post...</div>';
 
     try {
-        // Fetch metadata to get title/date (optional, but nice)
         const posts = await fetchPosts();
         const meta = posts.find(p => p.slug === slug);
 
-        // Fetch content
         const res = await fetch(`/data/posts/${slug}.md`);
         if (!res.ok) throw new Error('Post not found');
         const text = await res.text();
@@ -158,7 +145,7 @@ export async function renderBlogPost(container, slug) {
     } catch (e) {
         container.innerHTML = `
             <h2>Error</h2>
-            <p>Could not load post. <a href="/blog">Go back</a></p>
+            <p>Could not load post. <a href="/posts">Go back</a></p>
         `;
     }
 }
