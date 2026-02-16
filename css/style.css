@@ -219,10 +219,9 @@ p {
     align-items: center;
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     padding: 0.25rem;
-    overflow: hidden;
 }
 
-.main-logo {
+.main-logo-svg {
     height: 48px;
     width: auto;
     display: block;
@@ -235,13 +234,13 @@ p {
 }
 
 /* Theme specific adjustments for SVG logo */
-body.light-mode .main-logo {
-    filter: drop-shadow(0 2px 5px rgba(31, 111, 235, 0.2));
+body.light-mode .main-logo-svg {
+    filter: drop-shadow(0 2px 8px rgba(31, 111, 235, 0.3));
 }
 
-body:not(.light-mode) .main-logo {
+body:not(.light-mode) .main-logo-svg {
     color: var(--text-accent);
-    filter: drop-shadow(0 0 10px rgba(88, 166, 255, 0.4));
+    filter: drop-shadow(0 0 15px rgba(88, 166, 255, 0.6));
 }
 
 /* Timeline View */
